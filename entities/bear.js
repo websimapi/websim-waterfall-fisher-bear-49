@@ -36,16 +36,22 @@ export function createBear(type = 'splashy') {
     const armWidth = 0.4, armHeight = 1.0, armDepth = 0.4;
     
     // Left Arm
-    const leftArm = createVoxel(-0.95, armY, armZ, armWidth, armHeight, armDepth, bodyMat);
+    const leftArmPivot = new THREE.Group();
+    leftArmPivot.position.set(-0.75, armY, armZ);
+    const leftArm = createVoxel(-armWidth/2, -armHeight/2, 0, armWidth, armHeight, armDepth, bodyMat);
     leftArm.name = 'leftArm';
-    leftArm.rotation.z = -Math.PI / 16;
-    group.add(leftArm);
+    leftArmPivot.add(leftArm);
+    leftArmPivot.rotation.z = -Math.PI / 16;
+    group.add(leftArmPivot);
 
     // Right Arm
-    const rightArm = createVoxel(0.95, armY, armZ, armWidth, armHeight, armDepth, bodyMat);
+    const rightArmPivot = new THREE.Group();
+    rightArmPivot.position.set(0.75, armY, armZ);
+    const rightArm = createVoxel(armWidth/2, -armHeight/2, 0, armWidth, armHeight, armDepth, bodyMat);
     rightArm.name = 'rightArm';
-    rightArm.rotation.z = Math.PI / 16;
-    group.add(rightArm);
+    rightArmPivot.add(rightArm);
+    rightArmPivot.rotation.z = Math.PI / 16;
+    group.add(rightArmPivot);
     
     group.position.set(0, 4.65, 0.8); // Adjusted Y to be on top of the log.
     group.rotation.y = Math.PI;

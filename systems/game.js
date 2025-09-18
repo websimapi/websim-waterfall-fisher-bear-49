@@ -216,10 +216,11 @@ export function updateGame() {
     } else { // IDLE
         gameState.idleAnimTimer += 0.05;
         if (showcaseBear) {
-            const rightArm = showcaseBear.getObjectByName('rightArm');
-            if (rightArm) {
+            // Find the pivot to rotate, not the arm mesh itself
+            const rightArmPivot = showcaseBear.getObjectByName('rightArm')?.parent;
+            if (rightArmPivot) {
                 const armBob = Math.sin(gameState.idleAnimTimer) * 0.1;
-                rightArm.rotation.x = armBob;
+                rightArmPivot.rotation.x = armBob;
             }
         }
     }
