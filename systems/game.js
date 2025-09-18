@@ -54,6 +54,7 @@ function refreshShowcase() {
     const rightArmPivot = showcaseBear.getObjectByName('rightArmPivot');
     if (rightArmPivot) {
         console.log('[Verbose] Right arm pivot found! Attaching fish.');
+        console.log('[Verbose] Right arm pivot visible:', rightArmPivot.visible, 'position:', rightArmPivot.position, 'scale:', rightArmPivot.scale);
         scene.remove(showcaseFish); // remove from main scene to add to arm
         rightArmPivot.add(showcaseFish);
         showcaseFish.position.set(0.3, -0.7, 0.4); // Adjusted position relative to pivot
@@ -69,9 +70,42 @@ function refreshShowcase() {
     const leftArmPivot = showcaseBear.getObjectByName('leftArmPivot');
     if (leftArmPivot) {
         console.log('[Verbose] Left arm pivot found!');
+        console.log('[Verbose] Left arm pivot visible:', leftArmPivot.visible, 'position:', leftArmPivot.position, 'scale:', leftArmPivot.scale);
+        
+        // Check the actual arm mesh inside the pivot
+        const leftArm = leftArmPivot.getObjectByName('leftArm');
+        if (leftArm) {
+            console.log('[Verbose] Left arm mesh found! visible:', leftArm.visible, 'position:', leftArm.position, 'scale:', leftArm.scale);
+            // Ensure arm is visible and properly positioned
+            leftArm.visible = true;
+            leftArmPivot.visible = true;
+        } else {
+            console.error('[Verbose] Left arm mesh NOT found inside pivot.');
+        }
     } else {
         console.error('[Verbose] Left arm pivot NOT found.');
     }
+
+    // Also check right arm mesh
+    if (rightArmPivot) {
+        const rightArm = rightArmPivot.getObjectByName('rightArm');
+        if (rightArm) {
+            console.log('[Verbose] Right arm mesh found! visible:', rightArm.visible, 'position:', rightArm.position, 'scale:', rightArm.scale);
+            // Ensure arm is visible and properly positioned
+            rightArm.visible = true;
+            rightArmPivot.visible = true;
+        } else {
+            console.error('[Verbose] Right arm mesh NOT found inside pivot.');
+        }
+    }
+
+    // Ensure the entire bear is visible
+    showcaseBear.visible = true;
+    showcaseBear.traverse((child) => {
+        if (child.isMesh) {
+            child.visible = true;
+        }
+    });
 
     if (showcaseFish.userData?.velocity) showcaseFish.userData.velocity.set(0, 0, 0);
     if (showcaseFish.userData) showcaseFish.userData.swimAmplitude = 0;
