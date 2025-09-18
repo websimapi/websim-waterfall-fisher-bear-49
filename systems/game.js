@@ -51,18 +51,26 @@ function refreshShowcase() {
 
     // Attach fish to bear's hand
     console.log('[Verbose] Looking for right arm on showcase bear...');
-    const rightArm = showcaseBear.getObjectByName('rightArm');
-    if (rightArm) {
-        console.log('[Verbose] Right arm found! Attaching fish.');
+    const rightArmPivot = showcaseBear.getObjectByName('rightArmPivot');
+    if (rightArmPivot) {
+        console.log('[Verbose] Right arm pivot found! Attaching fish.');
         scene.remove(showcaseFish); // remove from main scene to add to arm
-        rightArm.add(showcaseFish);
-        showcaseFish.position.set(0.1, -0.7, 0.4);
+        rightArmPivot.add(showcaseFish);
+        showcaseFish.position.set(0.3, -0.7, 0.4); // Adjusted position relative to pivot
         showcaseFish.rotation.set(-Math.PI / 4, Math.PI / 2, Math.PI);
         showcaseFish.scale.set(0.5, 0.5, 0.5);
     } else {
-        console.error('[Verbose] Right arm NOT found. Fish not attached.');
+        console.error('[Verbose] Right arm pivot NOT found. Fish not attached.');
         // Fallback position if arm isn't found
         showcaseFish.position.set(2.0, 2.3, -1.5);
+    }
+    
+    console.log('[Verbose] Looking for left arm on showcase bear...');
+    const leftArmPivot = showcaseBear.getObjectByName('leftArmPivot');
+    if (leftArmPivot) {
+        console.log('[Verbose] Left arm pivot found!');
+    } else {
+        console.error('[Verbose] Left arm pivot NOT found.');
     }
 
     if (showcaseFish.userData?.velocity) showcaseFish.userData.velocity.set(0, 0, 0);
@@ -217,7 +225,7 @@ export function updateGame() {
         gameState.idleAnimTimer += 0.05;
         if (showcaseBear) {
             // Find the pivot to rotate, not the arm mesh itself
-            const rightArmPivot = showcaseBear.getObjectByName('rightArm')?.parent;
+            const rightArmPivot = showcaseBear.getObjectByName('rightArmPivot');
             if (rightArmPivot) {
                 const armBob = Math.sin(gameState.idleAnimTimer) * 0.1;
                 rightArmPivot.rotation.x = armBob;

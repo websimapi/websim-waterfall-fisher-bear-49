@@ -37,6 +37,7 @@ export function createBear(type = 'splashy') {
     
     // Left Arm
     const leftArmPivot = new THREE.Group();
+    leftArmPivot.name = 'leftArmPivot';
     leftArmPivot.position.set(-0.75, armY, armZ);
     const leftArm = createVoxel(-armWidth/2, -armHeight/2, 0, armWidth, armHeight, armDepth, bodyMat);
     leftArm.name = 'leftArm';
@@ -46,6 +47,7 @@ export function createBear(type = 'splashy') {
 
     // Right Arm
     const rightArmPivot = new THREE.Group();
+    rightArmPivot.name = 'rightArmPivot';
     rightArmPivot.position.set(0.75, armY, armZ);
     const rightArm = createVoxel(armWidth/2, -armHeight/2, 0, armWidth, armHeight, armDepth, bodyMat);
     rightArm.name = 'rightArm';
